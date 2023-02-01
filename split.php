@@ -8,23 +8,9 @@ header('Content-Type: application/json; charset=utf-8');
 http_response_code(200);
 
 
-// Configuration
-$pdKey = "ed6a14073178a39f0e22813acce602a9cd5bbf4a";
-$logUrl = "https://log.mufiksoft.com/flexiblebody_tilda-pipedrive";
 
 ////////////  F U N K T I O N S  /////////////////
 {
-function send_forward($inputJSON, $link){
-    $request = 'POST';	
-    $descriptor = curl_init($link);
-     curl_setopt($descriptor, CURLOPT_POSTFIELDS, $inputJSON);
-     curl_setopt($descriptor, CURLOPT_RETURNTRANSFER, 1);
-     curl_setopt($descriptor, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
-     curl_setopt($descriptor, CURLOPT_CUSTOMREQUEST, $request);
-    $itog = curl_exec($descriptor);
-    curl_close($descriptor);
-    return $itog;
-}
 function send_bearer($url, $token, $type = "GET", $param = []){
     $descriptor = curl_init($url);
      curl_setopt($descriptor, CURLOPT_POSTFIELDS, json_encode($param));
@@ -85,7 +71,7 @@ if (function_exists ("mb_str_split") === false) {
 
 // Input data
 $input = json_decode(file_get_contents("php://input"), true);
-if ($input != NULL) {
+if ($input != NULL && is_array($input) {
     $data = array_merge($_GET, $input);
 } else {
     $data = array_merge($_GET, $_POST);
