@@ -71,7 +71,7 @@ if (function_exists ("mb_str_split") === false) {
 
 // Input data
 $input = json_decode(file_get_contents("php://input"), true);
-if ($input != NULL && is_array($input) {
+if ($input != NULL && is_array($input)) {
     $data = array_merge($_GET, $input);
 } else {
     $data = array_merge($_GET, $_POST);
