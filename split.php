@@ -102,9 +102,16 @@ for ($page = 1; $pages >= $page; $page ++) {
     $getMessages = json_decode(send_bearer("https://api.smartsender.com/v1/contacts/".$data["userId"]."/messages?limitation=20&page=".$page, $data["token"]), true);
     if (is_array($getMessages["collection"])) {
         foreach ($getMessages["collection"] as $oneMessage) {
-            if (stripos($oneMessage["content"]["resource"]["parameters"]["content"], $data["message"]) !== false) {
-                $trueMessage = $oneMessage["content"]["resource"]["parameters"]["content"];
-                break 2;
+            if ($data["type"] == "media") {
+                if (stripos($oneMessage["content"]["resource"]["parameters"]["url"], $data["message"]) !== false) {
+                   $trueMessage = $oneMessage["content"]["resource"]["parameters"]["content"];
+                   break 2;
+                }
+            } else {
+                if (stripos($oneMessage["content"]["resource"]["parameters"]["content"], $data["message"]) !== false) {
+                   $trueMessage = $oneMessage["content"]["resource"]["parameters"]["content"];
+                   break 2;
+                }
             }
         }
     } else {
