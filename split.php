@@ -100,11 +100,12 @@ if ($result["state"] === false) {
 $pages = 1;
 for ($page = 1; $pages >= $page; $page ++) {
     $getMessages = json_decode(send_bearer("https://api.smartsender.com/v1/contacts/".$data["userId"]."/messages?limitation=20&page=".$page, $data["token"]), true);
+    $pages = $getMessages["cursor"]["pages"];
     if (is_array($getMessages["collection"])) {
         foreach ($getMessages["collection"] as $oneMessage) {
             if ($data["type"] == "media") {
                 if (stripos($oneMessage["content"]["resource"]["parameters"]["url"], $data["message"]) !== false) {
-                   $trueMessage = $oneMessage["content"]["resource"]["parameters"]["content"];
+                   $trueMessage = $oneMessage["content"]["resource"]["parameters"]["url"];
                    break 2;
                 }
             } else {
